@@ -42,7 +42,9 @@ import com.google.common.base.Strings;
 import de.helfenkannjeder.istatus.server.business.OrganisationService;
 import de.helfenkannjeder.istatus.server.business.OrganisationService.FetchType;
 import de.helfenkannjeder.istatus.server.business.OrganisationService.OrderByType;
+import de.helfenkannjeder.istatus.server.business.SquadService;
 import de.helfenkannjeder.istatus.server.domain.Organisation;
+import de.helfenkannjeder.istatus.server.domain.Squad;
 
 @Path("/organisations")
 @Produces({ APPLICATION_JSON})
@@ -66,6 +68,9 @@ public class OrganisationResource {
 
 	@Inject
 	private OrganisationService os;
+	
+	@Inject
+	private SquadService ss;
 	
 	private static final String REST_METHOD_FIND_ORGANISATION_BY_ID = "findOrganisationById";
 	/**
@@ -187,7 +192,7 @@ public class OrganisationResource {
 	
 	private static final String REST_METHOD_DELETE_ORGANISATION = "deleteOrganisation";
 	/**
-	 * Delete a organisaiton with a DELETE to URI /organisaitons{id}
+	 * Delete a organisaiton with a DELETE to URI /organisaitons/{id}
 	 * @param id Id of the organisation which should be deleted
 	 */
 	@Path("{" + ORGANISATION_ID_PATH_PARAM + ":[1-9][0-9]*}")
@@ -258,5 +263,30 @@ public class OrganisationResource {
 //				setStructuralLinksTourStation(station, uriInfo);
 //			}
 //		}
+	}
+	
+	// Squads
+	
+	@GET
+	@Path("{" + ORGANISATION_ID_PATH_PARAM + ":[1-9][0-9]*}/squads")
+	public Response findSquadsByOrganisation(@PathParam(ORGANISATION_ID_PATH_PARAM) Long organisationId) {
+		List<? extends Squad> squads = null;
+		
+		squads = ss.findSquadByOrganisationId(organisationId, 
+											de.helfenkannjeder.istatus.server.business.SquadService.FetchType.WITH_MEMBERS);
+
+		if (squads == null) {
+			final String msg = "No matching organisation or associated squads found";
+			throw new NotFoundException(msg);
+		}
+
+		Object entity = null;
+		if (squads != null) {
+//			squads.forEach(o -> setStructuralLinks(o, uriInfo));
+			entity = new GenericEntity<List<? extends Squad>>(squads){};
+		}
+
+		return Response.ok(entity)
+				.build();
 	}
 }

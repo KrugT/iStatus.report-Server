@@ -93,6 +93,14 @@ public class Organisation extends AbstractVersionedAuditable implements Cloneabl
 	
 	@Transient
 	private URI squadsUri;
+	
+	@OneToMany(mappedBy = "organisation")
+	@OrderColumn(name = "username")
+	@XmlTransient
+	private List<Member> members;
+	
+	@Transient
+	private URI membersUri;
 
 	public Long getId() {
 		return id;
@@ -148,6 +156,14 @@ public class Organisation extends AbstractVersionedAuditable implements Cloneabl
 
 	public void setSquadsUri(URI squadsUri) {
 		this.squadsUri = squadsUri;
+	}
+
+	public URI getMembersUri() {
+		return membersUri;
+	}
+
+	public void setMembersUri(URI membersUri) {
+		this.membersUri = membersUri;
 	}
 
 	@Override
