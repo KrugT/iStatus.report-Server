@@ -4,11 +4,13 @@ import static de.helfenkannjeder.istatus.server.business.Constants.LOADGRAPH;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
 import de.helfenkannjeder.istatus.server.domain.MemberAbsence;
@@ -47,6 +49,19 @@ public class MemberAbsenceService implements Serializable {
 		}
 
 		return memberAbsence;
+	}
+	
+	public List<MemberAbsence> findAllOpenMemberAbsencesByMemberId(Long memberId) {
+		if (memberId == null) {
+			return null;
+		}
+		
+		TypedQuery<MemberAbsence> query = null;
+
+		query = em.createNamedQuery(MemberAbsence.FIND_ALL_OPEN_ABSENCES_BY_MEMBER_ID, MemberAbsence.class)
+				.setParameter(MemberAbsence.PARAM_MEMBER_ID, memberId);
+
+		return query.getResultList();
 	}
 
 	public <T extends MemberAbsence> T createMemberAbsence(T memberAbsence) {

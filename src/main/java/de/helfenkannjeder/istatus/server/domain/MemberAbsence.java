@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedEntityGraphs;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -21,6 +23,15 @@ import de.helfenkannjeder.istatus.server.domain.util.AbstractVersionedAuditable;
 @XmlRootElement
 @Entity
 @Table(name = "member_absence")
+@NamedQueries({
+	@NamedQuery(name = MemberAbsence.FIND_ALL_OPEN_ABSENCES_BY_MEMBER_ID, 
+		query = "SELECT a"
+				+ " FROM MemberAbsence a"
+				+ " JOIN a.member m"
+				+ " WHERE m.id = :" + MemberAbsence.PARAM_MEMBER_ID
+//				+ " AND a.begin < CURRENT_DATE"
+				+ " AND a.end IS NULL")	
+})
 @NamedEntityGraphs({
 	@NamedEntityGraph(name = MemberAbsence.GRAPH_MEMBER,
 					  attributeNodes = {@NamedAttributeNode("member")})
@@ -31,8 +42,11 @@ public class MemberAbsence extends AbstractVersionedAuditable implements Cloneab
 	
 	//Names of the NamendQueries
 	private static final String PREFIX = "MemberAbsence.";
-	public static final String FIND_ALL_MEMBER_STATES = PREFIX
-			+ "findAllMemberStates";
+	public static final String FIND_ALL_OPEN_ABSENCES_BY_MEMBER_ID = PREFIX
+			+ "findAllOpenAbsencesByMemberID";
+	
+	//Parameters of NamedQueries
+	public static final String PARAM_MEMBER_ID = "memberId";
 	
 	public static final String GRAPH_MEMBER = PREFIX + "member";
 	

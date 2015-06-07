@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
-import org.jboss.arquillian.protocol.servlet.arq514hack.descriptors.impl.web.Strings;
+import com.google.common.base.Strings;
 
 import de.helfenkannjeder.istatus.server.domain.Member;
 import de.helfenkannjeder.istatus.server.domain.Organisation;
