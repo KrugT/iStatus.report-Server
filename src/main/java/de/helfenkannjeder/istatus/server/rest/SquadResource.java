@@ -12,6 +12,7 @@ import static javax.ws.rs.core.MediaType.TEXT_XML;
 
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
@@ -32,7 +33,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import de.helfenkannjeder.istatus.server.business.SquadService;
+import de.helfenkannjeder.istatus.server.business.StateService;
 import de.helfenkannjeder.istatus.server.business.SquadService.FetchType;
+import de.helfenkannjeder.istatus.server.domain.MemberState;
 import de.helfenkannjeder.istatus.server.domain.Squad;
 
 @Path("/squads")
@@ -53,6 +56,9 @@ public class SquadResource {
 
 	@Inject
 	private SquadService ss;
+	
+	@Inject
+	private StateService stateService;
 	
 	private static final String REST_METHOD_FIND_SQUAD_BY_ID = "findSquadById";
 	/**
@@ -167,5 +173,26 @@ public class SquadResource {
 		}
 
 		//TODO set uris in squad
+	}
+	
+	
+	/**
+	 * Gets the current State of all members in the squad with a GET to URI /squads/{id}/states
+	 * @param id ID of the squad
+	 * @return List of MemberState with for all members of the specified squad
+	 */
+	@GET
+	@Path("{" + SQUAD_ID_PATH_PARAM + ":[1-9][0-9]*}/states")
+	public Response findStatesBySquadId(@PathParam(SQUAD_ID_PATH_PARAM) Long id) {
+		
+		final List<MemberState> memberStates = stateService.getStatesBySquadId(id);
+
+		if (memberStates == null) {
+			final String msg = "no states found for squad with id " + id + " or invalid squad id";
+			throw new NotFoundException(msg);
+		}
+
+		return Response.ok(memberStates)
+				.build();
 	}
 }

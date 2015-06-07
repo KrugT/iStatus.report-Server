@@ -45,9 +45,9 @@ public class SquadService implements Serializable {
 			squad = em.find(Squad.class, id);
 			break;
 		case WITH_MEMBERS:
-			entityGraph = em.getEntityGraph(Organisation.GRAPH_SQUADS);
+			entityGraph = em.getEntityGraph(Squad.GRAPH_MEMBERS);
 			props = Collections.singletonMap(LOADGRAPH, entityGraph);
-			squad = em.find(Squad.class, id, props);			
+			squad = em.find(Squad.class, id, props);		
 			break;
 		default:
 			break;

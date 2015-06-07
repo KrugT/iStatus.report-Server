@@ -21,11 +21,6 @@ import de.helfenkannjeder.istatus.server.domain.util.AbstractVersionedAuditable;
 @XmlRootElement
 @Entity
 @Table(name = "member_absence")
-//@NamedQueries({
-//		@NamedQuery(name = MemberAbsence.FIND_ALL_MEMBER_STATES, 
-//			query = "SELECT o"
-//					+ " FROM Organisation o")		
-//})
 @NamedEntityGraphs({
 	@NamedEntityGraph(name = MemberAbsence.GRAPH_MEMBER,
 					  attributeNodes = {@NamedAttributeNode("member")})
@@ -40,9 +35,6 @@ public class MemberAbsence extends AbstractVersionedAuditable implements Cloneab
 			+ "findAllMemberStates";
 	
 	public static final String GRAPH_MEMBER = PREFIX + "member";
-
-	//Parameters of NamedQueries
-	public static final String PARAM_Name = "name";
 	
 	@Id
 	@GeneratedValue

@@ -10,4 +10,7 @@ INSERT INTO `squad` (`ID`, `name`, `organisation_fk`, `created`, `updated`, `ver
 INSERT INTO `member` (`ID`, `username`, `givenName`, `surname`, `password`, `organisation_fk`, `created`, `updated`, `version`) VALUES ('100', 'mmuster', 'Max', 'Muster', '12345', '10', '2015-01-01', '2015-01-01', '1');
 INSERT INTO `member` (`ID`, `username`, `givenName`, `surname`, `password`, `organisation_fk`, `created`, `updated`, `version`) VALUES ('101', 'mmuster', 'Max', 'Muster', '12345', '10', '2015-01-01', '2015-01-01', '1');
 
+INSERT INTO `squad_member` (`squad_fk`, `member_fk`) VALUES ('50', '100');
+INSERT INTO `squad_member` (`squad_fk`, `member_fk`) VALUES ('50', '101');
+
 INSERT INTO `member_absence` (`ID`, `begin`, `end`, `member_fk`, `created`, `updated`, `version`) VALUES ('150', '2015-06-01', null, '100', '2015-01-01', '2015-01-01', '1');
