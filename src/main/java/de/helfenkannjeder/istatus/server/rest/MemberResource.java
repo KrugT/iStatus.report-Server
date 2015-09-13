@@ -1,8 +1,6 @@
 package de.helfenkannjeder.istatus.server.rest;
 
 import static de.helfenkannjeder.istatus.server.rest.Constants.ADD_LINK;
-import static de.helfenkannjeder.istatus.server.rest.Constants.FIRST_LINK;
-import static de.helfenkannjeder.istatus.server.rest.Constants.LAST_LINK;
 import static de.helfenkannjeder.istatus.server.rest.Constants.LIST_LINK;
 import static de.helfenkannjeder.istatus.server.rest.Constants.REMOVE_LINK;
 import static de.helfenkannjeder.istatus.server.rest.Constants.SELF_LINK;
@@ -14,7 +12,6 @@ import static javax.ws.rs.core.MediaType.TEXT_XML;
 
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
-import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
@@ -157,22 +154,22 @@ public class MemberResource {
 		return new Link[] { self, list, add, update, remove };
 	}
 
-	private Link[] getTransitionalLinksMembers(List<? extends Member> members,
-			UriInfo uriInfo) {
-		if (members == null || members.isEmpty()) {
-			return null;
-		}
-
-		final Link first = Link.fromUri(getUriMember(members.get(0), uriInfo))
-								.rel(FIRST_LINK)
-								.build();
-		final int lastPos = members.size() - 1;
-		final Link last = Link.fromUri(getUriMember(members.get(lastPos), uriInfo))
-							.rel(LAST_LINK)
-							.build();
-
-		return new Link[] { first, last };
-	}
+//	private Link[] getTransitionalLinksMembers(List<? extends Member> members,
+//			UriInfo uriInfo) {
+//		if (members == null || members.isEmpty()) {
+//			return null;
+//		}
+//
+//		final Link first = Link.fromUri(getUriMember(members.get(0), uriInfo))
+//								.rel(FIRST_LINK)
+//								.build();
+//		final int lastPos = members.size() - 1;
+//		final Link last = Link.fromUri(getUriMember(members.get(lastPos), uriInfo))
+//							.rel(LAST_LINK)
+//							.build();
+//
+//		return new Link[] { first, last };
+//	}
 	
 	public URI getUriMember(Member member, UriInfo uriInfo) {
 		return uriHelper.getUri(MemberAbsenceResource.class, REST_METHOD_FIND_MEMBER_BY_ID,

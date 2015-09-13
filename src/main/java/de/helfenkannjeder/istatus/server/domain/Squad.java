@@ -29,7 +29,7 @@ import de.helfenkannjeder.istatus.server.domain.util.AbstractVersionedAuditable;
 @Table(name = "squad")
 @NamedQueries({
 		@NamedQuery(name = Squad.FIND_SQUADS_BY_ORGANISATION, 
-			query = "SELECT s"
+			query = "SELECT DISTINCT s"
 					+ " FROM Squad s"
 					+ " JOIN s.organisation o"
 					+ " WHERE o.id =:" + Squad.PARAM_ORGANISATION_ID

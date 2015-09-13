@@ -13,7 +13,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
-import de.helfenkannjeder.istatus.server.domain.Organisation;
 import de.helfenkannjeder.istatus.server.domain.Squad;
 
 public class SquadService implements Serializable {
